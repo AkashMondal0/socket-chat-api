@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
 
 const http = require('http').Server(app);
 const cors = require('cors');
@@ -10,46 +10,30 @@ app.use(cors());
 
 const socketIO = require('socket.io')(http, {
   cors: {
-    origin: "http://localhost:3000"
+    origin: "*"
   }
 });
 
 
 socketIO.on('connection', (socket) => {
-  // console.log(`⚡: ${socket.id} user just connected!`);
 
-  socket.on('join_room', (message) => {
-    // console.log(message);
-    socket.join(message.conversationId);
-    socketIO.to(message.conversationId).emit('message', message);
+  socket.on('join_room', (data) => {
+    socket.join(data.conversationId);
+    console.log('user joined room', data.userId);
   });
 
   socket.on('message', (data) => {
-    // console.log(data)
     socket.join(data.conversationId);
-    socketIO.to(data.conversationId).emit('message', data);
-
-  });
-
-  socket.on('TypingOn', (message) => {
-    socket.join(message.room);
-    socketIO.to("1234").emit('message', message);
-  });
-
-  socket.on('TypingOff', (message) => {
-    socket.join(message.room);
-    socketIO.to("1234").emit('message', message);
+    socketIO.to(data.conversationId).emit('room', data);
   });
 
   socket.on('disconnect', () => {
-    // console.log('🔥: A user disconnected');
+    console.log('user disconnected');
   });
 });
 
 app.get('/', (req, res) => {
-  res.json({
-    message: 'Hello world chat backend',
-  });
+  res.send('chat socket v1.0.0');
 });
 
 http.listen(PORT, () => {
