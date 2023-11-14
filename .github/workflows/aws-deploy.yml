@@ -22,7 +22,7 @@ jobs:
       #   run: sudo docker push akashmondal0/instagram-server:latest
 
       - name: Build the Docker socket image
-        run: cd socket && sudo docker build -t akashmondal0/socket-next-chat:latest .
+        run: sudo docker build -t akashmondal0/socket-next-chat:latest .
       - name: Push the Docker image to the repository
         run: sudo docker push akashmondal0/socket-next-chat:latest
 
