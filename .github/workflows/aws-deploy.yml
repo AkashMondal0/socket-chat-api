@@ -26,13 +26,10 @@ jobs:
         run: sudo docker pull akashmondal0/socket-next-chat:latest
 
       - name: delete previous container socket
-        run: sudo docker rm -f socket || true
+        run: sudo docker rm -f socket-api || true
 
       - name: Run docker compose socket container
-        run: sudo docker run --name socket -d -p 3003:3003 --rm akashmondal0/socket-next-chat:latest
-
-      - name: update docker compose socket container restart
-        run: sudo docker update --restart=always socket
+        run: sudo docker run --restart=always --name socket-api -d -p 3003:3003 akashmondal0/socket-next-chat:latest
 
         # nginx configuration
       - name: Reload nginx service

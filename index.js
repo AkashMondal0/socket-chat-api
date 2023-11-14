@@ -102,7 +102,7 @@ socketIO.on('connection', (socket) => {
 
 
 app.get('/', (req, res) => {
-  res.send('socket server is running, with firebase cloud message service, v-1');
+  res.send('socket next-chat server is running v0.1');
 });
 
 // app.post('/cloudMessage', (req, res) => {
