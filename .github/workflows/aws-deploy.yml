@@ -64,7 +64,7 @@ jobs:
         run: sudo docker run --name socket -d -p 3003:3003 --rm akashmondal0/socket-next-chat:latest
 
       - name: update docker compose socket container restart
-        run: docker update --restart=always socket
+        run: sudo docker update --restart=always socket
 
         # nginx configuration
       - name: Reload nginx service
