@@ -10,19 +10,10 @@ jobs:
         # docker build and push to docker hub
       - name: Login To Docker Hub
         run: sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_ACCESS_TOKEN }}
-        
-      # - name: Build the Docker client image
-      #   run: cd client && sudo docker build -t akashmondal0/instagram-client:latest .
-      # - name: Push the Docker image to the repository
-      #   run: sudo docker push akashmondal0/instagram-client:latest
-
-      # - name: Build the Docker server image
-      #   run: cd server && sudo docker build -t akashmondal0/instagram-server:latest .
-      # - name: Push the Docker image to the repository
-      #   run: sudo docker push akashmondal0/instagram-server:latest
 
       - name: Build the Docker socket image
         run: sudo docker build -t akashmondal0/socket-next-chat:latest .
+        
       - name: Push the Docker image to the repository
         run: sudo docker push akashmondal0/socket-next-chat:latest
 
@@ -30,35 +21,12 @@ jobs:
     needs: build
     runs-on: self-hosted
     steps:
-        # pull the images from docker hub and run it
-      # - name: Pull image from Docker Hub - client
-      #   run: sudo docker pull akashmondal0/instagram-client:latest
-
-      # - name: Pull image from Docker Hub - server
-      #   run: sudo docker pull akashmondal0/instagram-server:latest
 
       - name: Pull image from Docker Hub - socket
         run: sudo docker pull akashmondal0/socket-next-chat:latest
 
-
-      # - name: Create network
-      #   run: sudo docker network create instagram-network || true
-        # remove previous container and run new container
-      # - name: delete previous container client
-      #   run: sudo docker rm -f client || true
-
-      # - name: delete previous container server
-      #   run: sudo docker rm -f server || true
-
       - name: delete previous container socket
         run: sudo docker rm -f socket || true
-
-        # run new container
-      # - name: Run docker compose container
-      #   run: sudo docker run --name client --network=instagram-network -d -p 3001:3001 --rm akashmondal0/instagram-client:latest
-
-      # - name: Run docker compose container
-      #   run: sudo docker run --name server --network=instagram-network -d -p 3002:3002 --rm akashmondal0/instagram-server:latest
 
       - name: Run docker compose socket container
         run: sudo docker run --name socket -d -p 3003:3003 --rm akashmondal0/socket-next-chat:latest
