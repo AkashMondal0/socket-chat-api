@@ -61,7 +61,10 @@ jobs:
       #   run: sudo docker run --name server --network=instagram-network -d -p 3002:3002 --rm akashmondal0/instagram-server:latest
 
       - name: Run docker compose socket container
-        run: sudo docker run --name socket --restart unless-stopped -d -p 3003:3003 --rm akashmondal0/socket-next-chat:latest
+        run: sudo docker run --name socket -d -p 3003:3003 --rm akashmondal0/socket-next-chat:latest
+
+      - name: update docker compose socket container restart
+        run: docker update --restart=always socket
 
         # nginx configuration
       - name: Reload nginx service
